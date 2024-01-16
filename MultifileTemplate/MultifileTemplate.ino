@@ -125,5 +125,5 @@ void loop() {
     } else if (ps2x.Button(PSB_CROSS)) {
       Serial.println("CROSS button pushed");
       stop();
-    }
+    } else if ()
   }

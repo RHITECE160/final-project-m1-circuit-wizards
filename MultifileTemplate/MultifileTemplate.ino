@@ -26,13 +26,18 @@
 #include "SimpleRSLK.h"
 #include <Servo.h>
 #include "PS2X_lib.h"
+#include <TinyIRremote.h>
 
 // Define pin numbers for the button on the PlayStation controller
 #define PS2_DAT 14  //P1.7 <-> brown wire
 #define PS2_CMD 15  //P1.6 <-> orange wire
 #define PS2_SEL 34  //P2.3 <-> yellow wire (also called attention)
 #define PS2_CLK 35  //P6.7 <-> blue wire
-
+#define STR_HELPER(x) #x
+#define STR(x) STR_HELPER(x)
+#define IR_RCV_PIN      33
+IRreceiver irRX(IR_RCV_PIN);
+IRData IRresults;
 // Create an instance of the playstation controller object
 PS2X ps2x;
 
@@ -84,7 +89,17 @@ void setup() {
       delayMicroseconds(1000 * 1000);
     }
   } else if (CurrentRemoteMode == 1) {
-    // put start-up code for IR controller here if neccessary
+    Serial.begin(57600);
+    delay(500); // To be able to connect Serial monitor after reset or power up 
+    Serial.println(F("START " __FILE__ " from " __DATE__));
+    if (irRX.initIRReceiver()) {
+        Serial.println(F("Ready to receive NEC IR signals at pin " STR(IR_RCV_PIN)));
+    } else {
+        Serial.println("Initialization of IR receiver failed!");
+        while (1) {;}
+    }
+    // enable receive feedback and specify LED pin number (defaults to LED_BUILTIN)
+    enableRXLEDFeedback(BLUE_LED);
   }
 
 }
@@ -99,6 +114,8 @@ void loop() {
     RemoteControlPlaystation();
 
   } else if (CurrentRemoteMode == 1) {
+    Serial.println("Running remote control with the IR Controller");
+    movementIR();
     // put code here to run using the IR controller if neccessary
   }
 }
@@ -144,3 +161,81 @@ void loop() {
       stop();
     }
   }
+  void movementIR() {                        // takes action based on IR code received
+  switch (IRresults.command) {
+    case 0x45:
+      //Serial.println("POWER");
+      break;
+    case 0x46:
+      //Serial.println("VOL+");
+      spinRight();
+      break;
+    case 0x47:
+      //Serial.println("FUNC");
+      break;
+    case 0x44:
+      //Serial.println("LEFT");
+      turnLeft();
+      break;
+    case 0x40:
+      //Serial.println("PLAY");
+      break;
+    case 0x43:
+      //Serial.println("RIGHT");
+      turnRight();
+      break;
+    case 0x9:
+      //Serial.println("UP");
+      forward();
+      break;
+    case 0x15:
+      //Serial.println("VOL-");
+      spinLeft();
+      break;
+    case 0x7:
+     // Serial.println("DOWN");
+      reverse();
+      break;
+    case 0x16:
+      //Serial.println("0");
+      break;
+    case 0x19:
+     // Serial.println("EQ");
+      break;
+    case 0xD:
+     // Serial.println("ST");
+     stop();
+      break;
+    case 0xC:
+     // Serial.println("1");
+      break;
+    case 0x18:
+      //Serial.println("2");
+      break;
+    case 0x5E:
+      //Serial.println("3");
+      break;
+    case 0x8:
+      //Serial.println("4");
+      break;
+    case 0x1C:
+      //Serial.println("5");
+      break;
+    case 0x5A:
+     // Serial.println("6");
+      break;
+    case 0x42:
+      //Serial.println("7");
+      break;
+    case 0x52:
+      //Serial.println("8");
+      break;
+    case 0x4A:
+     // Serial.println("9");
+      break;
+    default:
+     // Serial.println("other button");
+      break;
+  }
+  delay(100);
+}

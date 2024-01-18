@@ -48,7 +48,7 @@ enum RemoteMode {
 };
 
 // Declare and initialize the current state variable
-RemoteMode CurrentRemoteMode = IR_REMOTE;
+RemoteMode CurrentRemoteMode = PLAYSTATION;
 
 // Tuning Parameters
 const uint16_t slowSpeed = 15;
@@ -163,6 +163,7 @@ void loop() {
       stop();
     } else if (ps2x.Button(PSB_CROSS)){
       CurrentRemoteMode = IR_REMOTE;
+    }
   }
 
   void movementIR() {                        // takes action based on IR code received
@@ -242,6 +243,5 @@ void loop() {
      // Serial.println("other button");
       break;
   }
-  delay(100);
 }
 

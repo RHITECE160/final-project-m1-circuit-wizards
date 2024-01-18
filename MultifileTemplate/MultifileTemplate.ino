@@ -46,7 +46,7 @@ enum RemoteMode {
 RemoteMode CurrentRemoteMode = PLAYSTATION;
 
 // Tuning Parameters
-const uint16_t lowSpeed = 15;
+const uint16_t slowSpeed = 15;
 const uint16_t fastSpeed = 30;
 
 void setup() {
@@ -125,5 +125,5 @@ void loop() {
     } else if (ps2x.Button(PSB_CROSS)) {
       Serial.println("CROSS button pushed");
       stop();
-    }
+    } else if ()
   }

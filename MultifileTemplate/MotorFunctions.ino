@@ -12,8 +12,8 @@
   2. void stopMotor()
      - Stops the motor.
 
-  Created by: Your Name
-  Date: Current Date
+  Created by: Ian Morton
+  Date: 1/17/24
   Version: 1.0
 */
 
@@ -25,7 +25,46 @@ void forward() {
     setMotorSpeed(BOTH_MOTORS, fastSpeed);
 }
 
+void reverse() {
+  enableMotor(BOTH_MOTORS);
+  setMotorDirection(LEFT_MOTOR, MOTOR_DIR_BACKWARD);
+  setMotorDirection(RIGHT_MOTOR, MOTOR_DIR_BACKWARD);
+  setMotorSpeed(BOTH_MOTORS, fastSpeed);
+}
+
 /* Stops robot forward: both motors disabled */
 void stop() {
     disableMotor(BOTH_MOTORS);
+}
+
+void turnLeft() {
+  enableMotor(BOTH_MOTORS);
+  setMotorDirection(LEFT_MOTOR, MOTOR_DIR_FORWARD);
+  setMotorDirection(RIGHT_MOTOR, MOTOR_DIR_FORWARD);
+  setMotorSpeed(RIGHT_MOTOR, fastSpeed);
+  setMotorSpeed(LEFT_MOTOR, slowSpeed);
+}
+
+void turnRight() {
+  enableMotor(BOTH_MOTORS);
+  setMotorDirection(LEFT_MOTOR, MOTOR_DIR_FORWARD);
+  setMotorDirection(RIGHT_MOTOR, MOTOR_DIR_FORWARD);
+  setMotorSpeed(RIGHT_MOTOR, slowSpeed);
+  setMotorSpeed(LEFT_MOTOR, fastSpeed);
+}
+
+void spinLeft() {
+  enableMotor(BOTH_MOTORS);
+  setMotorDirection(LEFT_MOTOR, MOTOR_DIR_BACKWARD);
+  setMotorDirection(RIGHT_MOTOR, MOTOR_DIR_FORWARD);
+  setMotorSpeed(RIGHT_MOTOR, slowSpeed);
+  setMotorSpeed(LEFT_MOTOR, slowSpeed);
+}
+
+void spinRight() {
+  enableMotor(BOTH_MOTORS);
+  setMotorDirection(LEFT_MOTOR, MOTOR_DIR_FORWARD);
+  setMotorDirection(RIGHT_MOTOR, MOTOR_DIR_BACKWARD);
+  setMotorSpeed(RIGHT_MOTOR, slowSpeed);
+  setMotorSpeed(LEFT_MOTOR, slowSpeed);
 }

@@ -161,12 +161,15 @@ void loop() {
     } else if (ps2x.Analog(PSS_LY)==127||ps2x.Analog(PSS_LX)==128||ps2x.Analog(PSS_RY)==127||ps2x.Analog(PSS_RY)==128){
       Serial.println("Stop");
       stop();
-    }
+    } else if (ps2x.Button(PSB_CROSS)){
+      CurrentRemoteMode = IR_REMOTE;
   }
+
   void movementIR() {                        // takes action based on IR code received
   switch (IRresults.command) {
     case 0x45:
       //Serial.println("POWER");
+      CurrentRemoteMode = PLAYSTATION;
       break;
     case 0x46:
       //Serial.println("VOL+");

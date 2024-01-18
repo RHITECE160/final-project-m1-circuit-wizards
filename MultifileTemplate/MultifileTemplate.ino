@@ -10,8 +10,8 @@
   MotorFunctions.ino
 
   written for the MSP432401 board
-  Author: Deborah Walter
-  Last revised: 11/28/2023
+  Author: Chengyang Ye; Ian Morton; Tom Cai
+  Last revised: 1/18/2024
 
 ***** Hardware Connections: *****
      start button       P3.0
@@ -40,7 +40,8 @@ IRreceiver irRX(IR_RCV_PIN);
 IRData IRresults;
 // Create an instance of the playstation controller object
 PS2X ps2x;
-
+Servo myservo;
+int pos = 0;
 // Define remote mode either playstation controller or IR remote controller
 enum RemoteMode {
   PLAYSTATION,
@@ -90,7 +91,7 @@ void setup() {
         Serial.println("Controller refusing to enter Pressures mode, may not support it. ");
       delayMicroseconds(1000 * 1000);
     }
-  } else if (CurrentRemoteMode == 1) {
+  } else if (CurrentRemoteMode == 1) { //use the IR control mode
     Serial.begin(57600);
     delay(500); // To be able to connect Serial monitor after reset or power up 
     Serial.println(F("START " __FILE__ " from " __DATE__));
@@ -114,13 +115,13 @@ void loop() {
   if (CurrentRemoteMode == 0) {
     Serial.println("Running remote control with the Playstation Controller");
     RemoteControlPlaystation();
-
+    // run using the ps2 controller
   } else if (CurrentRemoteMode == 1) {
     Serial.println("Running remote control with the IR Controller");
     if (irRX.decodeIR(&IRresults)) {
     movementIR();
     }
-    // put code here to run using the IR controller if neccessary
+    //  run using the IR controller 
   }
 }
 
@@ -144,29 +145,29 @@ void loop() {
     // the control methods
     if (ps2x.Analog(PSS_LY)>180) {
       Serial.println("Reverse");
-      reverse();
+      reverse(); // move L3 down so it will reverse
     } else if (ps2x.Analog(PSS_LY)<60) {
       Serial.println("Forward");
-      forward();
+      forward(); // move L3 up so it will forward
     } else if (ps2x.Analog(PSS_RX)>180){
       Serial.println("Turn Right");
-      turnRight();
+      turnRight();// move R3 to right so it will turn right
     } else if (ps2x.Analog(PSS_RX)<60){
       Serial.println("Turn Left");
-      turnLeft();
+      turnLeft(); // move L3 to left so it will turn left
     } else if (ps2x.Button(PSB_PAD_RIGHT)){
       Serial.println("Spin Right");
-      spinRight();
+      spinRight(); // press pad right so it will spin right
     } else if (ps2x.Button(PSB_PAD_LEFT)){
       Serial.println("Spin Left");
-      spinLeft();
+      spinLeft(); // press pad left so it will spin left
     } else if (ps2x.Analog(PSS_LY)==127||ps2x.Analog(PSS_LX)==128||ps2x.Analog(PSS_RY)==127||ps2x.Analog(PSS_RY)==128){
       Serial.println("Stop");
-      stop();
+      stop();// when L and R is in the middle, it will stop
     } else if (ps2x.Button(PSB_CROSS)){
-      CurrentRemoteMode = IR_REMOTE;
+      CurrentRemoteMode = IR_REMOTE; // press cross so it will change remote mode
     } else if (ps2x.Button(PSB_L3)){
-      servomovement();
+      servomovement(); // press L3 so the servo will function
     }
   }
 
@@ -178,7 +179,7 @@ void loop() {
       break;
     case 0x46:
       //Serial.println("VOL+");
-      spinRight();
+      spinRight();// press VOL+ so it will spin right
       break;
     case 0x47:
       //Serial.println("FUNC");
@@ -251,13 +252,13 @@ void loop() {
 }
 
 void servomovement(){
-   for(pos = 40; pos < 160; pos += 1)  // goes from 0 degrees to 180 degrees 
+   for(pos = 40; pos < 160; pos += 1)  // goes from 40 degrees to 160 degrees 
   {                                  // in steps of 1 degree 
     myservo.write(pos);              // tell servo to go to position in variable 'pos' 
     delay(10);                       // waits 40ms for the servo to reach the position 
   } 
   delay(5000);
-  for(pos = 160; pos>=40; pos-=1)     // goes from 180 degrees to 0 degrees 
+  for(pos = 160; pos>=40; pos-=1)     // goes from 160 degrees to 40 degrees 
   { 
     myservo.write(pos);              // tell servo to go to position in variable 'pos' 
     delay(10);                       // waits 40ms for the servo to reach the position  

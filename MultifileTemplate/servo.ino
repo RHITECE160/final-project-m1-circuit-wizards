@@ -5,11 +5,15 @@
 #include <SimpleRSLK.h>
 #include <Servo.h> 
 
+<<<<<<< HEAD
 <<<<<<< Updated upstream
  // create servo object to control a servo 
+=======
+Servo myservo;  // create servo object to control a servo 
+>>>>>>> parent of 7b00063 (no bug)
                 // a maximum of eight servo objects can be created 
-
- // variable to store the servo position 
+ 
+int pos = 0;    // variable to store the servo position 
  
 void setup() 
 { 

@@ -40,14 +40,18 @@ IRreceiver irRX(IR_RCV_PIN);
 IRData IRresults;
 // Create an instance of the playstation controller object
 PS2X ps2x;
+<<<<<<< HEAD
 <<<<<<< Updated upstream
 =======
 Servo myservo;
 
 >>>>>>> Stashed changes
 // Define remote mode either playstation controller or IR remote controller
+=======
+>>>>>>> parent of 7b00063 (no bug)
 Servo myservo;
-int pos=0;
+int pos = 0;
+// Define remote mode either playstation controller or IR remote controller
 enum RemoteMode {
   PLAYSTATION,
   IR_REMOTE,
@@ -64,7 +68,7 @@ void setup() {
   Serial.begin(57600);
   Serial.print("Starting up Robot code...... ");
   setupRSLK();
-// attaches the servo on Port 1, pin 5 to the servo object
+  myservo.attach(SRV_0);  // attaches the servo on Port 1, pin 5 to the servo object
 
   // Run setup code
   setupRSLK();
@@ -289,15 +293,15 @@ void loop() {
 }
 
 void servomovement(){
-for( pos = 40; pos < 160; pos += 1)  // goes from 0 degrees to 180 degrees 
-  {                                  // in steps of 1 degree 
-    myservo.write(pos);              // tell servo to go to position in variable 'pos' 
-    delay(10);                       // waits 40ms for the servo to reach the position 
+   for(pos = 40; pos < 160; pos += 1)  // goes from 40 degrees to 160 degrees 
+  {                                  // in steps of 1 degree 
+    myservo.write(pos);              // tell servo to go to position in variable 'pos' 
+    delay(10);                       // waits 40ms for the servo to reach the position 
   } 
   delay(5000);
-  for( pos = 160; pos>=40; pos-=1)     // goes from 180 degrees to 0 degrees 
-  {                                
-    myservo.write(pos);              // tell servo to go to position in variable 'pos' 
-    delay(10);                       // waits 40ms for the servo to reach the position 
+  for(pos = 160; pos>=40; pos-=1)     // goes from 160 degrees to 40 degrees 
+  { 
+    myservo.write(pos);              // tell servo to go to position in variable 'pos' 
+    delay(10);                       // waits 40ms for the servo to reach the position  
   } 
 }

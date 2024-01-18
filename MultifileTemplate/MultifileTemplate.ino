@@ -26,6 +26,7 @@
 #include "SimpleRSLK.h"
 #include <Servo.h>
 #include "PS2X_lib.h"
+//#include "MotorFunctions.h"
 
 // Define pin numbers for the button on the PlayStation controller
 #define PS2_DAT 14  //P1.7 <-> brown wire
@@ -46,7 +47,7 @@ enum RemoteMode {
 RemoteMode CurrentRemoteMode = PLAYSTATION;
 
 // Tuning Parameters
-const uint16_t slowSpeed = 15;
+const uint16_t lowSpeed = 15;
 const uint16_t fastSpeed = 30;
 
 void setup() {
@@ -86,6 +87,7 @@ void setup() {
   } else if (CurrentRemoteMode == 1) {
     // put start-up code for IR controller here if neccessary
   }
+
 }
 
 void loop() {
@@ -113,17 +115,33 @@ void loop() {
   PAD UP button moves both motors forward
   CROSS button stops motors
   */
+
   void RemoteControlPlaystation() {
     // put your code here to run in remote control mode
 
     // Example of receive and decode remote control command
     // the forward() and stop() functions should be independent of
     // the control methods
-    if (ps2x.Button(PSB_PAD_UP)) {
-      Serial.println("PAD UP button pushed ");
+    if (ps2x.Analog(PSS_LY)>180) {
+      Serial.println("Reverse");
+      reverse();
+    } else if (ps2x.Analog(PSS_LY)<60) {
+      Serial.println("Forward");
       forward();
-    } else if (ps2x.Button(PSB_CROSS)) {
-      Serial.println("CROSS button pushed");
+    } else if (ps2x.Analog(PSS_RX)>180){
+      Serial.println("Spin Right");
+      turnRight();
+    } else if (ps2x.Analog(PSS_RX)<60){
+      Serial.println("Spin Left");
+      turnLeft();
+    } else if (ps2x.Button(PSB_PAD_RIGHT)){
+      Serial.println("Spin Right");
+      spinRight();
+    } else if (ps2x.Button(PSB_PAD_LEFT)){
+      Serial.println("Spin Left");
+      spinLeft();
+    } else if (ps2x.Analog(PSS_LY)==127||ps2x.Analog(PSS_LX)==128||ps2x.Analog(PSS_RY)==127||ps2x.Analog(PSS_RY)==128){
+      Serial.println("Stop");
       stop();
-    } else if ()
+    }
   }

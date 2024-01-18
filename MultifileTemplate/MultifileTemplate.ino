@@ -46,7 +46,7 @@ enum RemoteMode {
 RemoteMode CurrentRemoteMode = PLAYSTATION;
 
 // Tuning Parameters
-const uint16_t lowSpeed = 15;
+const uint16_t slowSpeed = 15;
 const uint16_t fastSpeed = 30;
 
 void setup() {

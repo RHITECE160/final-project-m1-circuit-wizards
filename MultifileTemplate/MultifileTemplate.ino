@@ -48,7 +48,7 @@ enum RemoteMode {
 };
 
 // Declare and initialize the current state variable
-RemoteMode CurrentRemoteMode = PLAYSTATION;
+RemoteMode CurrentRemoteMode = IR_REMOTE;
 
 // Tuning Parameters
 const uint16_t slowSpeed = 15;
@@ -115,7 +115,9 @@ void loop() {
 
   } else if (CurrentRemoteMode == 1) {
     Serial.println("Running remote control with the IR Controller");
+    if (irRX.decodeIR(&IRresults)) {
     movementIR();
+    }
     // put code here to run using the IR controller if neccessary
   }
 }
@@ -239,3 +241,4 @@ void loop() {
   }
   delay(100);
 }
+

@@ -41,6 +41,7 @@ IRData IRresults;
 // Create an instance of the playstation controller object
 PS2X ps2x;
 // Define remote mode either playstation controller or IR remote controller
+
 Servo myservo;
 int pos=0;
 enum RemoteMode {
@@ -62,9 +63,7 @@ void setup() {
 // attaches the servo on Port 1, pin 5 to the servo object
 
   // Run setup code
-  setupRSLK();
 
-  if (CurrentRemoteMode == 0) {
     // using the playstation controller
     Serial.println("Using playstation controller, make sure it is paired first ");
 
@@ -91,7 +90,7 @@ void setup() {
         Serial.println("Controller refusing to enter Pressures mode, may not support it. ");
       delayMicroseconds(1000 * 1000);
     }
-  } else if (CurrentRemoteMode == 1) { //use the IR control mode
+     //use the IR control mode
     Serial.begin(57600);
     delay(500); // To be able to connect Serial monitor after reset or power up 
     Serial.println(F("START " __FILE__ " from " __DATE__));
@@ -103,7 +102,7 @@ void setup() {
     }
     // enable receive feedback and specify LED pin number (defaults to LED_BUILTIN)
     enableRXLEDFeedback(BLUE_LED);
-  }
+  
 
 }
 

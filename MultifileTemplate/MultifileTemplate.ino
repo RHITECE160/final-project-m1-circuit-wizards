@@ -40,6 +40,11 @@ IRreceiver irRX(IR_RCV_PIN);
 IRData IRresults;
 // Create an instance of the playstation controller object
 PS2X ps2x;
+<<<<<<< Updated upstream
+=======
+Servo myservo;
+
+>>>>>>> Stashed changes
 // Define remote mode either playstation controller or IR remote controller
 Servo myservo;
 int pos=0;
@@ -63,30 +68,32 @@ void setup() {
 
   // Run setup code
   setupRSLK();
+<<<<<<< Updated upstream
+=======
+  myServo.attach(SRV_0);
+>>>>>>> Stashed changes
 
-  if (CurrentRemoteMode == 0) {
-    // using the playstation controller
-    Serial.println("Using playstation controller, make sure it is paired first ");
 
-    // Initialize PlayStation controller
-    delayMicroseconds(500 * 1000);  //added delay to give wireless ps2 module some time to startup, before configuring it
-    // declare variables for playstation control
-    bool pressures = false;
-    bool rumble = false;
-    int error = 1;
+  // using the playstation controller
+  Serial.println("Using playstation controller, make sure it is paired first ");
 
-    while (error) {
-      error = ps2x.config_gamepad(PS2_CLK, PS2_CMD, PS2_SEL, PS2_DAT, pressures, rumble);
+  // Initialize PlayStation controller
+  delayMicroseconds(500 * 1000);  //added delay to give wireless ps2 module some time to startup, before configuring it
+  // declare variables for playstation control
+  bool pressures = false;
+  bool rumble = false;
+  int error = 1;
 
-      if (error == 0)
-        Serial.println("Found Controller, configured successful ");
+  while (error) {
+    error = ps2x.config_gamepad(PS2_CLK, PS2_CMD, PS2_SEL, PS2_DAT, pressures, rumble);
 
-      else if (error == 1)
-        Serial.println("No controller found, check wiring, see readme.txt to enable debug. visit www.billporter.info for troubleshooting tips");
+    if (error == 0)
+      Serial.println("Found Controller, configured successful ");
 
-      else if (error == 2)
-        Serial.println("Controller found but not accepting commands. see readme.txt to enable debug. Visit www.billporter.info for troubleshooting tips");
+    else if (error == 1)
+      Serial.println("No controller found, check wiring, see readme.txt to enable debug. visit www.billporter.info for troubleshooting tips");
 
+<<<<<<< Updated upstream
       else if (error == 3)
         Serial.println("Controller refusing to enter Pressures mode, may not support it. ");
       delayMicroseconds(1000 * 1000);
@@ -103,8 +110,26 @@ void setup() {
     }
     // enable receive feedback and specify LED pin number (defaults to LED_BUILTIN)
     enableRXLEDFeedback(BLUE_LED);
-  }
+=======
+    else if (error == 2)
+      Serial.println("Controller found but not accepting commands. see readme.txt to enable debug. Visit www.billporter.info for troubleshooting tips");
 
+    else if (error == 3)
+      Serial.println("Controller refusing to enter Pressures mode, may not support it. ");
+    delayMicroseconds(1000 * 1000);
+>>>>>>> Stashed changes
+  }
+  Serial.begin(57600);
+  delay(500); // To be able to connect Serial monitor after reset or power up 
+  Serial.println(F("START " __FILE__ " from " __DATE__));
+  if (irRX.initIRReceiver()) {
+      Serial.println(F("Ready to receive NEC IR signals at pin " STR(IR_RCV_PIN)));
+  } else {
+      Serial.println("Initialization of IR receiver failed!");
+      while (1) {;}
+  }
+  // enable receive feedback and specify LED pin number (defaults to LED_BUILTIN)
+  enableRXLEDFeedback(BLUE_LED);
 }
 
 void loop() {
@@ -160,6 +185,7 @@ void loop() {
       spinRight(); // press pad right so it will spin right
     } else if (ps2x.Button(PSB_PAD_LEFT)){
       Serial.println("Spin Left");
+<<<<<<< Updated upstream
       spinLeft(); // press pad left so it will spin left
     } else if (ps2x.Analog(PSS_LY)==127||ps2x.Analog(PSS_LX)==128||ps2x.Analog(PSS_RY)==127||ps2x.Analog(PSS_RY)==128){
       Serial.println("Stop");
@@ -168,13 +194,24 @@ void loop() {
       CurrentRemoteMode = IR_REMOTE; // press cross so it will change remote mode
     } else if (ps2x.Button(PSB_L3)){
       servomovement(); // press L3 so the servo will function
+=======
+      spinLeft();
+    // } else if (ps2x.Analog(PSS_LY)==127 && ps2x.Analog(PSS_LX)==128 && ps2x.Analog(PSS_RY)==127 && ps2x.Analog(PSS_RY)==128){
+    //   Serial.println("Stop");
+    //   stop();
+    } else if (ps2x.Button(PSB_CROSS)){
+      CurrentRemoteMode = IR_REMOTE;
+    } else {
+      Serial.println("Stop");
+      stop();
+>>>>>>> Stashed changes
     }
   }
 
   void movementIR() {                        // takes action based on IR code received
   switch (IRresults.command) {
     case 0x45:
-      //Serial.println("POWER");
+      // Serial.println("POWER");
       CurrentRemoteMode = PLAYSTATION;
       break;
     case 0x46:

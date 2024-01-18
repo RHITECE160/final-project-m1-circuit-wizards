@@ -26,7 +26,7 @@
 #include "SimpleRSLK.h"
 #include <Servo.h>
 #include "PS2X_lib.h"
-//#include "MotorFunctions.h"
+#include "MotorFunctions.h"
 
 // Define pin numbers for the button on the PlayStation controller
 #define PS2_DAT 14  //P1.7 <-> brown wire
@@ -47,7 +47,7 @@ enum RemoteMode {
 RemoteMode CurrentRemoteMode = PLAYSTATION;
 
 // Tuning Parameters
-const uint16_t lowSpeed = 15;
+const uint16_t slowSpeed = 15;
 const uint16_t fastSpeed = 30;
 
 void setup() {
@@ -129,10 +129,10 @@ void loop() {
       Serial.println("Forward");
       forward();
     } else if (ps2x.Analog(PSS_RX)>180){
-      Serial.println("Spin Right");
+      Serial.println("Turn Right");
       turnRight();
     } else if (ps2x.Analog(PSS_RX)<60){
-      Serial.println("Spin Left");
+      Serial.println("Turn Left");
       turnLeft();
     } else if (ps2x.Button(PSB_PAD_RIGHT)){
       Serial.println("Spin Right");

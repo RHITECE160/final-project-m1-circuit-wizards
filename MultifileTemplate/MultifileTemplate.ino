@@ -160,13 +160,12 @@ void loop() {
     } else if (ps2x.Button(PSB_PAD_LEFT)){
       Serial.println("Spin Left");
       spinLeft(); // press pad left so it will spin left
-    } else if (ps2x.Analog(PSS_LY)==127||ps2x.Analog(PSS_LX)==128||ps2x.Analog(PSS_RY)==127||ps2x.Analog(PSS_RY)==128){
-      Serial.println("Stop");
-      stop();// when L and R is in the middle, it will stop
     } else if (ps2x.Button(PSB_CROSS)){
       CurrentRemoteMode = IR_REMOTE; // press cross so it will change remote mode
     } else if (ps2x.Button(PSB_L3)){
       servomovement(); // press L3 so the servo will function
+    } else{
+    stop();
     }
   }
 

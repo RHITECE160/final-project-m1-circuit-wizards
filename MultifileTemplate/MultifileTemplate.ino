@@ -60,6 +60,7 @@ void setup() {
   Serial.begin(57600);
   Serial.print("Starting up Robot code...... ");
   setupRSLK();
+  myservo.attach(SRV_0);
 // attaches the servo on Port 1, pin 5 to the servo object
 
   // Run setup code
@@ -163,7 +164,9 @@ void loop() {
     } else if (ps2x.Button(PSB_CROSS)){
       CurrentRemoteMode = IR_REMOTE; // press cross so it will change remote mode
     } else if (ps2x.Button(PSB_L3)){
-      servomovement(); // press L3 so the servo will function
+      servomovement_open(); // press L3 so the servo will function
+    } else if (ps2x.Button(PSB_R3)){
+      servomovement_close(); // press L3 so the servo will function
     } else{
     stop();
     }
@@ -181,13 +184,13 @@ void loop() {
       break;
     case 0x47:
       //Serial.println("FUNC");
-      servomovement();
       break;
     case 0x44:
       //Serial.println("LEFT");
       turnLeft();
       break;
     case 0x40:
+      servomovement_open();
       //Serial.println("PLAY");
       break;
     case 0x43:
@@ -218,6 +221,7 @@ void loop() {
       break;
     case 0xC:
      // Serial.println("1");
+      servomovement_close();
       break;
     case 0x18:
       //Serial.println("2");
@@ -249,16 +253,11 @@ void loop() {
   }
 }
 
-void servomovement(){
-for( pos = 40; pos < 160; pos += 1)  // goes from 0 degrees to 180 degrees 
-  {                                  // in steps of 1 degree 
-    myservo.write(pos);              // tell servo to go to position in variable 'pos' 
-    delay(10);                       // waits 40ms for the servo to reach the position 
-  } 
-  delay(5000);
-  for( pos = 160; pos>=40; pos-=1)     // goes from 180 degrees to 0 degrees 
-  {                                
-    myservo.write(pos);              // tell servo to go to position in variable 'pos' 
-    delay(10);                       // waits 40ms for the servo to reach the position 
-  } 
+void servomovement_open(){
+    myservo.write(180);              // tell servo to go to position in variable 'pos' 
 }
+
+void servomovement_close(){
+  myservo.write(40);
+}            
+

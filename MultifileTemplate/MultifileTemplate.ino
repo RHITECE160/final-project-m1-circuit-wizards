@@ -184,6 +184,7 @@ void loop() {
       break;
     case 0x47:
       //Serial.println("FUNC");
+      servomovement_open();
       break;
     case 0x44:
       //Serial.println("LEFT");
@@ -255,6 +256,8 @@ void loop() {
 
 void servomovement_open(){
     myservo.write(180);              // tell servo to go to position in variable 'pos' 
+                             // in steps of 1 degree 
+    myservo.write(160);              // tell servo to go to position in variable 'pos' 
 }
 
 void servomovement_close(){

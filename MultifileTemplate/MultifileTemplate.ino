@@ -254,13 +254,11 @@ void loop() {
   }
 }
 
-void servomovement_open(){
-    myservo.write(180);              // tell servo to go to position in variable 'pos' 
-                             // in steps of 1 degree 
+void servomovement_open(){ 
     myservo.write(160);              // tell servo to go to position in variable 'pos' 
 }
 
 void servomovement_close(){
-  myservo.write(40);
+  myservo.write(45);
 }            
 

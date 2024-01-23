@@ -11,7 +11,7 @@
 
   written for the MSP432401 board
   Author: Chengyang Ye; Ian Morton; Tom Cai
-  Last revised: 1/18/2024
+  Last revised: 1/21/2024
 
 ***** Hardware Connections: *****
      start button       P3.0

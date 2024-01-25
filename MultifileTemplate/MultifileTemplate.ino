@@ -37,6 +37,7 @@
 #define STR_HELPER(x) #x
 #define STR(x) STR_HELPER(x)
 #define IR_RCV_PIN      33
+#define IR_LED 6  //P4.3 <-> white wire
 IRreceiver irRX(IR_RCV_PIN);
 IRData IRresults;
 // Create an instance of the playstation controller object

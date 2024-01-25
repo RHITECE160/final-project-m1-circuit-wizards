@@ -24,7 +24,7 @@ void AutonomousControl() {
 
   unsigned long myTime;
 
-Serial.println("in the AutonomousControl function");
+  Serial.println("in the AutonomousControl function");
 
   // State machine loop
   while (AutoCurrentState != IDLE) {

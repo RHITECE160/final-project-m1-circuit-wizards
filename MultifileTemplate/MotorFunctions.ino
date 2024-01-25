@@ -68,3 +68,11 @@ void spinRight() {
   setMotorSpeed(RIGHT_MOTOR, slowSpeed);
   setMotorSpeed(LEFT_MOTOR, slowSpeed);
 }
+
+void servomovement_open(){ 
+    myservo.write(160);              // tell servo to go to position in variable 'pos' 
+}
+
+void servomovement_close(){
+  myservo.write(45);
+}   

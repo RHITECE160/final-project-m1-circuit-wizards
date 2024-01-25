@@ -33,6 +33,7 @@
 #define PS2_CMD 15  //P1.6 <-> orange wire
 #define PS2_SEL 34  //P2.3 <-> yellow wire (also called attention)
 #define PS2_CLK 35  //P6.7 <-> blue wire
+#define START_BUTTON 18  //P3.0 a push button on top of the breadboard
 #define STR_HELPER(x) #x
 #define STR(x) STR_HELPER(x)
 #define IR_RCV_PIN      33
@@ -52,16 +53,20 @@ enum RemoteMode {
 // Declare and initialize the current state variable
 RemoteMode CurrentRemoteMode = PLAYSTATION;
 
+// Global Variables
+unsigned long lastActionTime = 0;  // Variable to store the last time an action was taken
+
 // Tuning Parameters
 const uint16_t slowSpeed = 15;
 const uint16_t fastSpeed = 30;
+const unsigned long movementDuration = 2000;  // Duration for movement forward autonomously in milliseconds
 
 void setup() {
   Serial.begin(57600);
   Serial.print("Starting up Robot code...... ");
   setupRSLK();
   myservo.attach(SRV_0);
-// attaches the servo on Port 1, pin 5 to the servo object
+  // attaches the servo on Port 1, pin 5 to the servo object
 
   // Run setup code
 
@@ -104,11 +109,18 @@ void setup() {
     // enable receive feedback and specify LED pin number (defaults to LED_BUILTIN)
     enableRXLEDFeedback(BLUE_LED);
   
-
+    pinMode(START_BUTTON, INPUT_PULLUP);
 }
 
 void loop() {
-  RemoteControl();
+  // Read input from PlayStation controller
+  ps2x.read_gamepad();
+
+  // Update state machine based on button input
+  updateStateMachine();
+
+  // Perform actions based on the current state
+  executeStateActions();
 }
 
 

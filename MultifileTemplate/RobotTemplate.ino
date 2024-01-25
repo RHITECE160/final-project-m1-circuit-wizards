@@ -30,16 +30,6 @@
 #include <Servo.h>
 #include "PS2X_lib.h"
 
-// Define pin numbers for the button on the PlayStation controller
-#define PS2_DAT 14  //P1.7 <-> brown wire
-#define PS2_CMD 15  //P1.6 <-> orange wire
-#define PS2_SEL 34  //P2.3 <-> yellow wire (also called attention)
-#define PS2_CLK 35  //P6.7 <-> blue wire
-#define START_BUTTON 18  //P3.0 a push button on top of the breadboard
-
-// Create an instance of the playstation controller object
-PS2X ps2x;
-
 // Define high-level state machine
 enum RobotState {
   INITIALIZE,
@@ -60,61 +50,6 @@ enum AutoState {
 // Declare and initialize the current state variable
 RobotState RobotCurrentState = INITIALIZE;
 AutoState AutoCurrentState = START;
-
-// Global Variables
-unsigned long lastActionTime = 0;  // Variable to store the last time an action was taken
-
-// Tuning Parameters
-const uint16_t lowSpeed = 15;
-const uint16_t fastSpeed = 30;
-const unsigned long movementDuration = 2000;  // Duration for movement forward autonomously in milliseconds
-
-void setup() {
-  Serial.begin(57600);
-  Serial.print("Starting up Robot code...... ");
-
-  // Run setup code
-  setupRSLK();
-
-  // Initialize PlayStation controller
-  delayMicroseconds(500 * 1000);  //added delay to give wireless ps2 module some time to startup, before configuring it
-  // declare variables for playstation control
-  bool pressures = false;
-  bool rumble = false;
-  int error = 1;
-
-  while (error) {
-    error = ps2x.config_gamepad(PS2_CLK, PS2_CMD, PS2_SEL, PS2_DAT, pressures, rumble);
-
-    if (error == 0)
-      Serial.print("Found Controller, configured successful ");
-
-    else if (error == 1)
-      Serial.println("No controller found, check wiring, see readme.txt to enable debug. visit www.billporter.info for troubleshooting tips");
-
-    else if (error == 2)
-      Serial.println("Controller found but not accepting commands. see readme.txt to enable debug. Visit www.billporter.info for troubleshooting tips");
-
-    else if (error == 3)
-      Serial.println("Controller refusing to enter Pressures mode, may not support it. ");
-    delayMicroseconds(1000 * 1000);
-  }
-
-  // set pushbutton on breadboard to use internal pullup resistor
-  pinMode(START_BUTTON, INPUT_PULLUP);
-
-}
-
-void loop() {
-  // Read input from PlayStation controller
-  ps2x.read_gamepad();
-
-  // Update state machine based on button input
-  updateStateMachine();
-
-  // Perform actions based on the current state
-  executeStateActions();
-}
 
 /* updateStateMachine function
   This function changes the high-level state based on user input. 

@@ -25,10 +25,6 @@
      blue wire          P6.7
 */
 
-// Load libraries used
-#include "SimpleRSLK.h"
-#include <Servo.h>
-#include "PS2X_lib.h"
 
 // Define high-level state machine
 enum RobotState {
@@ -36,17 +32,9 @@ enum RobotState {
   AUTONOMOUS
 };
 
-// Define lower-level state machine for AUTONOMOUS mode
-enum AutoState {
-  START,
-  AUTO_TOWALL,
-  AUTO_LINEFOLLOW,
-  IDLE
-};
 
 // Declare and initialize the current state variable
 RobotState RobotCurrentState = MANUAL;
-AutoState AutoCurrentState = START;
 
 /* updateStateMachine function
   This function changes the high-level state based on user input. 

@@ -19,6 +19,17 @@
   Date: Current Date
   Version: 1.0
 */
+
+// Define lower-level state machine for AUTONOMOUS mode
+enum AutoState {
+  START,
+  AUTO_TOWALL,
+  AUTO_LINEFOLLOW,
+  IDLE
+};
+
+AutoState AutoCurrentState = START;
+
 void AutonomousControl() {
   // put your code here to run in Autonomous control mode
 

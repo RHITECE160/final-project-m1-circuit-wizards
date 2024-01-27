@@ -7,7 +7,6 @@
 *
 */
 
-#include <SimpleRSLK.h>
 
 //#define UART_SERIAL Serial1    // for wireless serial monitor using HC05
 //Using the HC-06 lets you see the measurements when not tethered

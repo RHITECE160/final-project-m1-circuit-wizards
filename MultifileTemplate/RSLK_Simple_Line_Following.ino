@@ -31,18 +31,14 @@
  */
 
 /* Include RSLK library */
-#include "SimpleRSLK.h"
 
 /* Modify the following line to use an alternate UART interface (i.e. Serial1/2/3) */
-#define UART_SERIAL     Serial
+
 
 /* Valid values are either:
  *  DARK_LINE  if your floor is lighter than your line
  *  LIGHT_LINE if your floor is darker than your line
  */
-const uint8_t lineColor = LIGHT_LINE;
-const uint16_t normalSpeed = 10;
-const uint16_t fastSpeed = 20;
 
 void setup()
 {
@@ -91,7 +87,6 @@ void floorCalibration()
     enableMotor(BOTH_MOTORS);
 }
 
-bool isCalibrationComplete = false;
 void loop()
 {
     /* Run this setup only once */
@@ -103,13 +98,13 @@ void loop()
     uint32_t linePos = getLinePosition();
 
     if ((linePos > 0) && (linePos < 4000)) {    // turn left
-        setMotorSpeed(LEFT_MOTOR, normalSpeed);
-        setMotorSpeed(RIGHT_MOTOR, fastSpeed);
+        setMotorSpeed(LEFT_MOTOR, normalSpeedforlinefollowing);
+        setMotorSpeed(RIGHT_MOTOR, fastSpeedforlinefollowing);
     } else if (linePos > 5000) {                // turn right
-        setMotorSpeed(LEFT_MOTOR, fastSpeed);
-        setMotorSpeed(RIGHT_MOTOR, normalSpeed);
+        setMotorSpeed(LEFT_MOTOR, fastSpeedforlinefollowing);
+        setMotorSpeed(RIGHT_MOTOR, normalSpeedforlinefollowing);
     } else {                                    // go straight
-        setMotorSpeed(LEFT_MOTOR, normalSpeed);
-        setMotorSpeed(RIGHT_MOTOR, normalSpeed);
+        setMotorSpeed(LEFT_MOTOR, normalSpeedforlinefollowing);
+        setMotorSpeed(RIGHT_MOTOR, normalSpeedforlinefollowing);
     }
 }

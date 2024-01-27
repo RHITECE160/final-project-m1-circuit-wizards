@@ -38,11 +38,16 @@
 #define STR(x) STR_HELPER(x)
 #define IR_RCV_PIN      33
 #define IR_LED 6  //P4.3 <-> white wire
+#define UART_SERIAL     Serial
 IRreceiver irRX(IR_RCV_PIN);
 IRData IRresults;
 // Create an instance of the playstation controller object
 PS2X ps2x;
 // Define remote mode either playstation controller or IR remote controller
+const uint8_t lineColor = LIGHT_LINE;
+const uint16_t normalSpeedforlinefollowing = 10;
+const uint16_t fastSpeedforlinefollowing = 20;
+bool isCalibrationComplete = false;
 
 Servo myservo;
 int pos=0;
@@ -66,6 +71,8 @@ void setup() {
   Serial.begin(57600);
   Serial.print("Starting up Robot code...... ");
   setupRSLK();
+  setupWaitBtn(LP_LEFT_BTN);
+  setupLed(RED_LED);
   myservo.attach(SRV_0);
   // attaches the servo on Port 1, pin 5 to the servo object
 

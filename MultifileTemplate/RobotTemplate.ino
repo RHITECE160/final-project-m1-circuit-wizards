@@ -46,7 +46,6 @@ RobotState RobotCurrentState = MANUAL;
 void updateStateMachine() {
   switch (RobotCurrentState) {
     case MANUAL:
-      Serial.print("in manual state........");
       if (ps2x.Button(PSB_CIRCLE)) {
         // go to Autonomous state when circle button pushed
         RobotCurrentState = AUTONOMOUS;
@@ -54,12 +53,11 @@ void updateStateMachine() {
       break;
 
     case AUTONOMOUS:
-      Serial.print("in autonomous state........");
       if (ps2x.Button(PSB_SQUARE)) {
         // go to manual state when square button pushed
         RobotCurrentState = MANUAL;
         // reset autonomous state to start state for the next time
-        AutoCurrentState = START; 
+        AutoCurrentState = AUTO_TOWALL; 
       }
 
       break;
@@ -77,14 +75,12 @@ void executeStateActions() {
   switch (RobotCurrentState) {
     case AUTONOMOUS:
       // Perform actions for the autonomous state
-      Serial.println("Autonomous Mode");
       AutonomousControl();
       // Add any additional actions for the autonomous state
       break;
 
     case MANUAL:
       // Perform actions for the manual state
-      Serial.println("Manual Mode");
       RemoteControl();
       // Add any additional actions for the manual state
       break;

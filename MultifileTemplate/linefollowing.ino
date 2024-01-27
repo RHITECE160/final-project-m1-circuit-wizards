@@ -31,48 +31,30 @@
  */
 
 /* Include RSLK library */
-#include "SimpleRSLK.h"
 
 /* Modify the following line to use an alternate UART interface (i.e. Serial1/2/3) */
-#define UART_SERIAL     Serial
+
 
 /* Valid values are either:
  *  DARK_LINE  if your floor is lighter than your line
  *  LIGHT_LINE if your floor is darker than your line
  */
-const uint8_t lineColor = LIGHT_LINE;
-const uint16_t normalSpeed = 10;
-const uint16_t fastSpeed = 20;
-
-void setup()
-{
-    UART_SERIAL.begin(115200);
-
-    setupRSLK();
-    /* Left button on Launchpad */
-    setupWaitBtn(LP_LEFT_BTN);
-    /* Red led in rgb led */
-    setupLed(RED_LED);
-}
 
 void floorCalibration()
 {
     /* Place Robot On Floor (no line) */
     delay(2000);
-    UART_SERIAL.println("Push left button on Launchpad to begin calibration.");
-    UART_SERIAL.println("Make sure the robot is on the floor away from the line.\n");
     /* Wait until button is pressed to start robot */
     waitBtnPressed(LP_LEFT_BTN, RED_LED);
 
     delay(500);
-    UART_SERIAL.println("Running calibration on floor");
 
     /* Set both motors direction forward */
     setMotorDirection(BOTH_MOTORS, MOTOR_DIR_FORWARD);
     /* Enable both motors */
     enableMotor(BOTH_MOTORS);
-    /* Set both motors speed 20 */
-    setMotorSpeed(BOTH_MOTORS, 20);
+    /* Set both motors speed 10 */
+    setMotorSpeed(BOTH_MOTORS, 10);
 
     /* Must be called prior to using getLinePosition() or readCalLineSensor() */
     calibrateLineSensor(lineColor);
@@ -80,36 +62,22 @@ void floorCalibration()
     /* Disable both motors */
     disableMotor(BOTH_MOTORS);
 
-    UART_SERIAL.println("Reading floor values complete");
 
-    UART_SERIAL.println("Push left button on Launchpad to begin line following.");
-    UART_SERIAL.println("Make sure the robot is on the line.\n");
-    /* Wait until button is pressed to start robot */
-    waitBtnPressed(LP_LEFT_BTN, RED_LED);
-    delay(1000);
-
-    enableMotor(BOTH_MOTORS);
 }
 
-bool isCalibrationComplete = false;
-void loop()
+void linefollowing()
 {
-    /* Run this setup only once */
-    if (isCalibrationComplete == false) {
-        floorCalibration();
-        isCalibrationComplete = true;
-    }
 
     uint32_t linePos = getLinePosition();
 
     if ((linePos > 0) && (linePos < 4000)) {    // turn left
-        setMotorSpeed(LEFT_MOTOR, normalSpeed);
-        setMotorSpeed(RIGHT_MOTOR, fastSpeed);
+        setMotorSpeed(LEFT_MOTOR, normalSpeedforlinefollowing);
+        setMotorSpeed(RIGHT_MOTOR, fastSpeedforlinefollowing);
     } else if (linePos > 5000) {                // turn right
-        setMotorSpeed(LEFT_MOTOR, fastSpeed);
-        setMotorSpeed(RIGHT_MOTOR, normalSpeed);
+        setMotorSpeed(LEFT_MOTOR, fastSpeedforlinefollowing);
+        setMotorSpeed(RIGHT_MOTOR, normalSpeedforlinefollowing);
     } else {                                    // go straight
-        setMotorSpeed(LEFT_MOTOR, normalSpeed);
-        setMotorSpeed(RIGHT_MOTOR, normalSpeed);
+        setMotorSpeed(LEFT_MOTOR, normalSpeedforlinefollowing);
+        setMotorSpeed(RIGHT_MOTOR, normalSpeedforlinefollowing);
     }
 }

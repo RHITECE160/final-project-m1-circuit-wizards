@@ -22,13 +22,16 @@
 
 // Define lower-level state machine for AUTONOMOUS mode
 enum AutoState {
-  START,
   AUTO_TOWALL,
   AUTO_LINEFOLLOW,
   IDLE
 };
 
-AutoState AutoCurrentState = START;
+AutoState AutoCurrentState = AUTO_TOWALL;
+
+uint16_t distValue; 
+uint16_t distMM; 
+float distIN;
 
 void AutonomousControl() {
   // put your code here to run in Autonomous control mode
@@ -40,30 +43,33 @@ void AutonomousControl() {
   // State machine loop
   while (AutoCurrentState != IDLE) {
     switch (AutoCurrentState) {
-      case START:
-        Serial.println("in Autonomous mode the current state: START");
-        // Add START state instructions here
-        AutoCurrentState = AUTO_TOWALL;  // Transition to next state
-        lastActionTime = millis();  // Record the time when the forward state started
-        break;
-
       case AUTO_TOWALL:
-        Serial.println("in Autonomous mode the current state: AUTO_TOWALL");
-        //move forward for a time, then stop, and transition to the next state
+
+        //move forward then update sensor
         forward();  
+        LaserSensor();
         // Check if the movement duration has passed
-        if (millis() - lastActionTime >= movementDuration) {
-          stop(); //stop the forward movement
-          AutoCurrentState = AUTO_LINEFOLLOW;  // Transition to next state
-          lastActionTime = millis();  // Record the time when the next state started
+        if (distMM < 120) {
+          stop();
+          lastActionTime = millis();  // Record the time when the forward state started
+          spinRight();
+          if ((millis() - lastActionTime) > 500) {
+            stop();
+            AutoCurrentState = AUTO_LINEFOLLOW;
+          }
+          
         }
+        
         break;
 
       case AUTO_LINEFOLLOW:
-        Serial.println("in Autonomous mode the current state: AUTO_LINEFOLLOW");
         // Add state instructions here
         delay(1000);  // Placeholder delay
-        AutoCurrentState = IDLE;  // Transition to next state
+        forward();
+        linefollowing();
+        if (distMM < 150) {
+          AutoCurrentState = IDLE;  // Transition to next state
+        }
         break;
 
       default:

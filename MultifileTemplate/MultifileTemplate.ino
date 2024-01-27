@@ -56,6 +56,9 @@ RemoteMode CurrentRemoteMode = PLAYSTATION;
 
 // Global Variables
 unsigned long lastActionTime = 0;  // Variable to store the last time an action was taken
+const uint8_t lineColor = LIGHT_LINE;
+const uint16_t normalSpeedforlinefollowing = 10;
+const uint16_t fastSpeedforlinefollowing = 20;
 
 // Tuning Parameters
 const uint16_t slowSpeed = 15;
@@ -66,6 +69,8 @@ void setup() {
   Serial.begin(57600);
   Serial.print("Starting up Robot code...... ");
   setupRSLK();
+  setupWaitBtn(LP_LEFT_BTN);
+  setupLed(RED_LED);
   myservo.attach(SRV_0);
   // attaches the servo on Port 1, pin 5 to the servo object
 
@@ -109,8 +114,7 @@ void setup() {
     }
     // enable receive feedback and specify LED pin number (defaults to LED_BUILTIN)
     enableRXLEDFeedback(BLUE_LED);
-  
-    pinMode(START_BUTTON, INPUT_PULLUP);
+    floorCalibration();
 }
 
 void loop() {

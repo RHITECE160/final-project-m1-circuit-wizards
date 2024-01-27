@@ -32,7 +32,6 @@
 
 // Define high-level state machine
 enum RobotState {
-  INITIALIZE,
   MANUAL,
   AUTONOMOUS
 };
@@ -48,7 +47,7 @@ enum AutoState {
 };
 
 // Declare and initialize the current state variable
-RobotState RobotCurrentState = INITIALIZE;
+RobotState RobotCurrentState = MANUAL;
 AutoState AutoCurrentState = START;
 
 /* updateStateMachine function
@@ -60,14 +59,6 @@ AutoState AutoCurrentState = START;
 */
 void updateStateMachine() {
   switch (RobotCurrentState) {
-    case INITIALIZE:
-      if (digitalRead(START_BUTTON) == 0) {
-        Serial.print("start button has been pressed going to manual");
-        //go to Manual state when start button pushed
-        RobotCurrentState = MANUAL;
-      }
-      break;
-
     case MANUAL:
       Serial.print("in manual state........");
       if (ps2x.Button(PSB_CIRCLE)) {
@@ -98,12 +89,6 @@ void updateStateMachine() {
 */
 void executeStateActions() {
   switch (RobotCurrentState) {
-    case INITIALIZE:
-      // Perform actions for the initialize state
-      Serial.println("Initializing...");
-      // Add any additional actions for the initialize state
-      break;
-
     case AUTONOMOUS:
       // Perform actions for the autonomous state
       Serial.println("Autonomous Mode");

@@ -27,16 +27,16 @@ enum AutoState {
   IDLE
 };
 
-AutoState AutoCurrentState = AUTO_TOWALL;
+AutoState AutoCurrentState = AUTO_LINEFOLLOW;
 
 uint16_t distValue; 
 uint16_t distMM; 
 float distIN;
+float light = analogRead(A5);
+uint32_t linePos = getLinePosition();
 
 void AutonomousControl() {
   // put your code here to run in Autonomous control mode
-
-  unsigned long myTime;
 
   Serial.println("in the AutonomousControl function");
 
@@ -44,42 +44,60 @@ void AutonomousControl() {
   while (AutoCurrentState != IDLE) {
     switch (AutoCurrentState) {
       case AUTO_TOWALL:
-
         //move forward then update sensor
         forward();  
         LaserSensor();
         // Check if the movement duration has passed
-        if (distMM < 120) {
+        if (distMM < 200) {
           stop();
-          lastActionTime = millis();  // Record the time when the forward state started
+          //lastActionTime = millis();  // Record the time when the forward state started
           spinRight();
-          if ((millis() - lastActionTime) > 500) {
-            stop();
-            AutoCurrentState = AUTO_LINEFOLLOW;
-          }
-          
+          // if ((millis() - lastActionTime) > 500) {
+          //   stop();
+          // }
+          forward();
+          judgeautotype();
         }
         
         break;
 
       case AUTO_LINEFOLLOW:
         // Add state instructions here
-        delay(1000);  // Placeholder delay
-        forward();
+        delay(1000);
+        Serial.println("Linefollowing");
+        LaserSensor();
         linefollowing();
-        if (distMM < 150) {
-          AutoCurrentState = IDLE;  // Transition to next state
+         lastActionTime = millis(); 
+         if (distMM < 1000) {
+            Serial.println("Time to stop");
+            stop();
+            while((millis() - lastActionTime)>1000 ){
+              Serial.println("Time to spin");
+              spinRight();
+            }
+            servomovement_open();
         }
         break;
+
+      
 
       default:
         // Handle unknown state, if needed
         break;
     }
   }
-
   // The code will exit the while loop when IDLE state is reached
-  Serial.println("State: IDLE");
+
   // Add IDLE state instructions here
 
 }
+
+void judgeautotype(){
+  if (light > 8000 || getLinePosition() != 0) {
+    AutoCurrentState = AUTO_LINEFOLLOW;
+  } else {
+    AutoCurrentState = AUTO_TOWALL;
+  }
+}
+
+

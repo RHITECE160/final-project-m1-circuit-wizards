@@ -57,8 +57,8 @@ RemoteMode CurrentRemoteMode = PLAYSTATION;
 // Global Variables
 unsigned long lastActionTime = 0;  // Variable to store the last time an action was taken
 const uint8_t lineColor = LIGHT_LINE;
-const uint16_t normalSpeedforlinefollowing = 10;
-const uint16_t fastSpeedforlinefollowing = 20;
+// const uint16_t normalSpeedforlinefollowing = 10;
+// const uint16_t fastSpeedforlinefollowing = 20;
 
 // Tuning Parameters
 const uint16_t slowSpeed = 15;

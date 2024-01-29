@@ -70,7 +70,7 @@ void spinRight() {
 }
 
 void servomovement_open(){ 
-    myservo.write(160);              // tell servo to go to position in variable 'pos' 
+  myservo.write(160);              // tell servo to go to position in variable 'pos' 
 }
 
 void servomovement_close(){

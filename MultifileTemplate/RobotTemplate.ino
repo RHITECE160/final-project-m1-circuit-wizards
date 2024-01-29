@@ -28,13 +28,14 @@
 
 // Define high-level state machine
 enum RobotState {
+  INITIALIZE,
   MANUAL,
   AUTONOMOUS
 };
 
 
 // Declare and initialize the current state variable
-RobotState RobotCurrentState = MANUAL;
+RobotState RobotCurrentState = INITIALIZE;
 
 /* updateStateMachine function
   This function changes the high-level state based on user input. 
@@ -45,6 +46,12 @@ RobotState RobotCurrentState = MANUAL;
 */
 void updateStateMachine() {
   switch (RobotCurrentState) {
+    case INITIALIZE:
+      if (ps2x.Button(PSB_TRIANGLE)) {
+        // go to Autonomous state when circle button pushed
+        RobotCurrentState = MANUAL;
+      }
+      break;
     case MANUAL:
       if (ps2x.Button(PSB_CIRCLE)) {
         // go to Autonomous state when circle button pushed
@@ -81,6 +88,7 @@ void executeStateActions() {
 
     case MANUAL:
       // Perform actions for the manual state
+      Serial.println("in remote mode.");
       RemoteControl();
       // Add any additional actions for the manual state
       break;

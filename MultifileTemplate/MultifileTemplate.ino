@@ -126,6 +126,7 @@ void loop() {
 
   // Perform actions based on the current state
   executeStateActions();
+  delayMicroseconds(50*1000);
 }
 
 

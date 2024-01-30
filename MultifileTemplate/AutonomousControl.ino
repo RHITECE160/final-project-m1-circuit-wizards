@@ -48,12 +48,12 @@ void AutonomousControl() {
         forward();  
         LaserSensor();
         // Check if the movement duration has passed
-        if (distMM < 170) {
+        if (distMM < 150) {
           stop();// Record the time when the forward state started
           spinRight();
           delay(800);
           forward();
-          delay(2000);
+          delay(1500);
           AutoCurrentState = AUTO_LINEFOLLOW;
         }
         

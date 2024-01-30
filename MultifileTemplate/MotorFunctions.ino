@@ -22,7 +22,8 @@ void forward() {
     enableMotor(BOTH_MOTORS);
     setMotorDirection(LEFT_MOTOR, MOTOR_DIR_FORWARD);
     setMotorDirection(RIGHT_MOTOR, MOTOR_DIR_FORWARD);
-    setMotorSpeed(BOTH_MOTORS, fastSpeed);
+    setMotorSpeed(LEFT_MOTOR, fastSpeed);
+    setMotorSpeed(RIGHT_MOTOR, fatSpeed);
 }
 
 void reverse() {

@@ -58,11 +58,12 @@ void floorCalibration()
 
     /* Must be called prior to using getLinePosition() or readCalLineSensor() */
     calibrateLineSensor(lineColor);
-
+    Serial.println("Done calibrating.");
     /* Disable both motors */
     disableMotor(BOTH_MOTORS);
 
-
+    Serial.println("motor should be off.");
+    
 }
 
  void linefollowing()

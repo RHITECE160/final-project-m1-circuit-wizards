@@ -50,11 +50,11 @@ void AutonomousControl() {
         // Check if the movement duration has passed
         if (distMM < 200) {
           stop();
-          //lastActionTime = millis();  // Record the time when the forward state started
+          lastActionTime = millis();  // Record the time when the forward state started
           spinRight();
-          // if ((millis() - lastActionTime) > 500) {
-          //   stop();
-          // }
+          if ((millis() - lastActionTime) > 500) {
+            stop();
+          }
           forward();
           judgeautotype();
         }
@@ -68,13 +68,11 @@ void AutonomousControl() {
         LaserSensor();
         linefollowing();
          lastActionTime = millis(); 
-         if (distMM < 1000) {
+         if (distMM < 250) {
             Serial.println("Time to stop");
             stop();
-            while((millis() - lastActionTime)>1000 ){
-              Serial.println("Time to spin");
-              spinRight();
-            }
+            spinRight();
+            delay(1800);
             servomovement_open();
         }
         break;

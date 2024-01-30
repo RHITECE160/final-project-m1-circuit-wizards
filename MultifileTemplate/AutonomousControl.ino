@@ -27,7 +27,7 @@ enum AutoState {
   IDLE
 };
 
-AutoState AutoCurrentState = AUTO_LINEFOLLOW;
+AutoState AutoCurrentState = AUTO_TOWALL;
 
 uint16_t distValue; 
 uint16_t distMM; 
@@ -48,15 +48,13 @@ void AutonomousControl() {
         forward();  
         LaserSensor();
         // Check if the movement duration has passed
-        if (distMM < 200) {
-          stop();
-          lastActionTime = millis();  // Record the time when the forward state started
+        if (distMM < 170) {
+          stop();// Record the time when the forward state started
           spinRight();
-          if ((millis() - lastActionTime) > 500) {
-            stop();
-          }
+          delay(800);
           forward();
-          judgeautotype();
+          delay(2000);
+          AutoCurrentState = AUTO_LINEFOLLOW;
         }
         
         break;
@@ -67,13 +65,11 @@ void AutonomousControl() {
         Serial.println("Linefollowing");
         LaserSensor();
         linefollowing();
-         lastActionTime = millis(); 
-         if (distMM < 250) {
+         if (distMM < 100) {
             Serial.println("Time to stop");
             stop();
-            spinRight();
-            delay(1800);
-            servomovement_open();
+            myservo.write(160);
+            AutoCurrentState = IDLE;
         }
         break;
 
@@ -91,7 +87,7 @@ void AutonomousControl() {
 }
 
 void judgeautotype(){
-  if (light > 8000 || getLinePosition() != 0) {
+  if (light > 250 || getLinePosition() != 0) {
     AutoCurrentState = AUTO_LINEFOLLOW;
   } else {
     AutoCurrentState = AUTO_TOWALL;

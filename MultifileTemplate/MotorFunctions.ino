@@ -22,8 +22,8 @@ void forward() {
     enableMotor(BOTH_MOTORS);
     setMotorDirection(LEFT_MOTOR, MOTOR_DIR_FORWARD);
     setMotorDirection(RIGHT_MOTOR, MOTOR_DIR_FORWARD);
-    setMotorSpeed(LEFT_MOTOR, fastSpeed);
-    setMotorSpeed(RIGHT_MOTOR, fatSpeed);
+    setMotorSpeed(LEFT_MOTOR, 30);
+    setMotorSpeed(RIGHT_MOTOR, 30);
 }
 
 void reverse() {
@@ -71,9 +71,9 @@ void spinRight() {
 }
 
 void servomovement_open(){ 
-  myservo.write(160);              // tell servo to go to position in variable 'pos' 
+  myservo.write(20);              // tell servo to go to position in variable 'pos' 
 }
 
 void servomovement_close(){
-  myservo.write(45);
+  myservo.write(100);
 }   

@@ -33,7 +33,6 @@ uint16_t distValue;
 uint16_t distMM; 
 float distIN;
 float light = analogRead(A5);
-uint32_t linePos = getLinePosition();
 
 void AutonomousControl() {
   // put your code here to run in Autonomous control mode
@@ -48,12 +47,12 @@ void AutonomousControl() {
         forward();  
         LaserSensor();
         // Check if the movement duration has passed
-        if (distMM < 150) {
+        if (distMM < 130) {
           stop();// Record the time when the forward state started
           spinRight();
-          delay(800);
+          delay(1200);
           forward();
-          delay(1500);
+          delay(1600);
           AutoCurrentState = AUTO_LINEFOLLOW;
         }
         
@@ -61,14 +60,13 @@ void AutonomousControl() {
 
       case AUTO_LINEFOLLOW:
         // Add state instructions here
-        delay(1000);
         Serial.println("Linefollowing");
         LaserSensor();
         linefollowing();
          if (distMM < 100) {
             Serial.println("Time to stop");
             stop();
-            myservo.write(160);
+            myservo.write(30);
             AutoCurrentState = IDLE;
         }
         break;

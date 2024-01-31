@@ -81,6 +81,8 @@ void RemoteControlPlaystation() {
     digitalWrite(IR_LED, HIGH);
     delay(1000);
     digitalWrite(IR_LED,LOW);
+  } else if (ps2x.Button(PSB_L1)) {
+    lightcandles();
   } else {
   stop();
   }

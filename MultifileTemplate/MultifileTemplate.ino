@@ -38,14 +38,18 @@
 #define STR(x) STR_HELPER(x)
 #define IR_RCV_PIN      33
 #define IR_LED 6  //P4.3 <-> white wire
+#define IR_TRX_PIN 6
+IRsender sendIR(IR_TRX_PIN);
 IRreceiver irRX(IR_RCV_PIN);
 IRData IRresults;
 // Create an instance of the playstation controller object
 PS2X ps2x;
+IRData IRmsg;
 // Define remote mode either playstation controller or IR remote controller
 
 Servo myservo;
 int pos=0;
+bool skull = false;
 enum RemoteMode {
   PLAYSTATION,
   IR_REMOTE,

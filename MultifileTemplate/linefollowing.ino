@@ -72,17 +72,14 @@ void floorCalibration()
      uint32_t linePos = getLinePosition();
      enableMotor(BOTH_MOTORS);
 
-     if ((linePos > 0) && (linePos < 4000)) {    // turn left
-         setMotorDirection(BOTH_MOTORS, MOTOR_DIR_FORWARD);
-         setMotorSpeed(LEFT_MOTOR, 10);
-         setMotorSpeed(RIGHT_MOTOR, 11);
-     } else if (linePos > 5000) {                // turn right
-         setMotorDirection(BOTH_MOTORS, MOTOR_DIR_FORWARD);
-         setMotorSpeed(LEFT_MOTOR,11);
-         setMotorSpeed(RIGHT_MOTOR, 10);
-     } else {                                    // go straight
-         setMotorDirection(BOTH_MOTORS, MOTOR_DIR_FORWARD);
-         setMotorSpeed(LEFT_MOTOR, 15);
-         setMotorSpeed(RIGHT_MOTOR, 15);
-     }
+     if ((linePos > 0) && (linePos < 3000)) {    // turn left
+        setMotorSpeed(LEFT_MOTOR, 10);
+        setMotorSpeed(RIGHT_MOTOR, 15);
+    } else if (linePos > 4000) {                // turn right
+        setMotorSpeed(LEFT_MOTOR, 15);
+        setMotorSpeed(RIGHT_MOTOR, 10);
+    } else {                                    // go straight
+        setMotorSpeed(LEFT_MOTOR, 10);
+        setMotorSpeed(RIGHT_MOTOR, 10);
+    }
  }

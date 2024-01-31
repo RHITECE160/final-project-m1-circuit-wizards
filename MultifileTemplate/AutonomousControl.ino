@@ -50,20 +50,21 @@ void AutonomousControl() {
         if (distMM < 130) {
           stop();// Record the time when the forward state started
           spinRight();
-          delay(1200);
+          delay(1130);
           forward();
-          delay(1600);
+          delay(1700);
           AutoCurrentState = AUTO_LINEFOLLOW;
         }
         
         break;
 
       case AUTO_LINEFOLLOW:
+         
         // Add state instructions here
         Serial.println("Linefollowing");
         LaserSensor();
         linefollowing();
-         if (distMM < 100) {
+         if (distMM < 70) {
             Serial.println("Time to stop");
             stop();
             myservo.write(30);

@@ -37,8 +37,8 @@
 #define STR_HELPER(x) #x
 #define STR(x) STR_HELPER(x)
 #define IR_RCV_PIN      33
-#define IR_LED 6  //P4.3 <-> white wire
-#define IR_TRX_PIN 6
+#define IR_LED 18  //P4.3 <-> white wire
+#define IR_TRX_PIN 18
 IRsender sendIR(IR_TRX_PIN);
 IRreceiver irRX(IR_RCV_PIN);
 IRData IRresults;
@@ -119,6 +119,8 @@ void setup() {
     // enable receive feedback and specify LED pin number (defaults to LED_BUILTIN)
     enableRXLEDFeedback(BLUE_LED);
     floorCalibration();
+    candleSetup();
+    
 }
 
 void loop() {

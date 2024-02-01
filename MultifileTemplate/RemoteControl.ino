@@ -82,7 +82,9 @@ void RemoteControlPlaystation() {
     delay(1000);
     digitalWrite(IR_LED,LOW);
   } else if (ps2x.Button(PSB_L1)) {
-    lightcandles();
+    goldCandles();
+  } else if (ps2x.Button(PSB_L2)) {
+    lightskull();
   } else {
   stop();
   }

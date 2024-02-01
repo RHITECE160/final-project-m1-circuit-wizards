@@ -75,5 +75,5 @@ void servomovement_open(){
 }
 
 void servomovement_close(){
-  myservo.write(120);
+  myservo.write(180);
 }   

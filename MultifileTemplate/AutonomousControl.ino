@@ -50,9 +50,9 @@ void AutonomousControl() {
         if (distMM < 130) {
           stop();// Record the time when the forward state started
           spinRight();
-          delay(1130);
+          delay(1000);
           forward();
-          delay(1700);
+          delay(1600);
           AutoCurrentState = AUTO_LINEFOLLOW;
         }
         

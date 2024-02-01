@@ -83,12 +83,14 @@ void executeStateActions() {
   switch (RobotCurrentState) {
     case INITIALIZE:
       Serial.println("Initialzing");
+      delay(500);
 
       break;
     case AUTONOMOUS:
       // Perform actions for the autonomous state
       AutonomousControl();
       Serial.println("It is in autonomous mode");
+      delay(500);
       // Add any additional actions for the autonomous state
       break;
 
@@ -96,6 +98,7 @@ void executeStateActions() {
       // Perform actions for the manual state
       RemoteControl();
       Serial.println("It is in Manual mode");
+      delay(500);
       // Add any additional actions for the manual state
       break;
   }

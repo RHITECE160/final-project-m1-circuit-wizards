@@ -38,19 +38,18 @@
 #define STR(x) STR_HELPER(x)
 #define IR_RCV_PIN      33
 #define IR_LED 6  //P4.3 <-> white wire
-#define UART_SERIAL     Serial
+#define IR_TRX_PIN 6
+IRsender sendIR(IR_TRX_PIN);
 IRreceiver irRX(IR_RCV_PIN);
 IRData IRresults;
 // Create an instance of the playstation controller object
 PS2X ps2x;
+IRData IRmsg;
 // Define remote mode either playstation controller or IR remote controller
-const uint8_t lineColor = LIGHT_LINE;
-const uint16_t normalSpeedforlinefollowing = 10;
-const uint16_t fastSpeedforlinefollowing = 20;
-bool isCalibrationComplete = false;
 
 Servo myservo;
 int pos=0;
+bool skull = false;
 enum RemoteMode {
   PLAYSTATION,
   IR_REMOTE,
@@ -61,6 +60,9 @@ RemoteMode CurrentRemoteMode = PLAYSTATION;
 
 // Global Variables
 unsigned long lastActionTime = 0;  // Variable to store the last time an action was taken
+const uint8_t lineColor = LIGHT_LINE;
+// const uint16_t normalSpeedforlinefollowing = 10;
+// const uint16_t fastSpeedforlinefollowing = 20;
 
 // Tuning Parameters
 const uint16_t slowSpeed = 15;
@@ -116,8 +118,7 @@ void setup() {
     }
     // enable receive feedback and specify LED pin number (defaults to LED_BUILTIN)
     enableRXLEDFeedback(BLUE_LED);
-  
-    pinMode(START_BUTTON, INPUT_PULLUP);
+    floorCalibration();
 }
 
 void loop() {
@@ -129,6 +130,7 @@ void loop() {
 
   // Perform actions based on the current state
   executeStateActions();
+  delayMicroseconds(50*1000);
 }
 
 

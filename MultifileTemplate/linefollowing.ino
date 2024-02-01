@@ -40,71 +40,46 @@
  *  LIGHT_LINE if your floor is darker than your line
  */
 
-void setup()
-{
-    UART_SERIAL.begin(115200);
-
-    setupRSLK();
-    /* Left button on Launchpad */
-    setupWaitBtn(LP_LEFT_BTN);
-    /* Red led in rgb led */
-    setupLed(RED_LED);
-}
-
 void floorCalibration()
 {
     /* Place Robot On Floor (no line) */
     delay(2000);
-    UART_SERIAL.println("Push left button on Launchpad to begin calibration.");
-    UART_SERIAL.println("Make sure the robot is on the floor away from the line.\n");
     /* Wait until button is pressed to start robot */
     waitBtnPressed(LP_LEFT_BTN, RED_LED);
 
     delay(500);
-    UART_SERIAL.println("Running calibration on floor");
 
     /* Set both motors direction forward */
     setMotorDirection(BOTH_MOTORS, MOTOR_DIR_FORWARD);
     /* Enable both motors */
     enableMotor(BOTH_MOTORS);
-    /* Set both motors speed 20 */
-    setMotorSpeed(BOTH_MOTORS, 20);
+    /* Set both motors speed 10 */
+    setMotorSpeed(BOTH_MOTORS, 10);
 
     /* Must be called prior to using getLinePosition() or readCalLineSensor() */
     calibrateLineSensor(lineColor);
-
+    Serial.println("Done calibrating.");
     /* Disable both motors */
     disableMotor(BOTH_MOTORS);
 
-    UART_SERIAL.println("Reading floor values complete");
-
-    UART_SERIAL.println("Push left button on Launchpad to begin line following.");
-    UART_SERIAL.println("Make sure the robot is on the line.\n");
-    /* Wait until button is pressed to start robot */
-    waitBtnPressed(LP_LEFT_BTN, RED_LED);
-    delay(1000);
-
-    enableMotor(BOTH_MOTORS);
+    Serial.println("motor should be off.");
+    
 }
 
-void loop()
-{
-    /* Run this setup only once */
-    if (isCalibrationComplete == false) {
-        floorCalibration();
-        isCalibrationComplete = true;
-    }
+ void linefollowing()
+ {
 
-    uint32_t linePos = getLinePosition();
+     uint32_t linePos = getLinePosition();
+     enableMotor(BOTH_MOTORS);
 
-    if ((linePos > 0) && (linePos < 4000)) {    // turn left
-        setMotorSpeed(LEFT_MOTOR, normalSpeedforlinefollowing);
-        setMotorSpeed(RIGHT_MOTOR, fastSpeedforlinefollowing);
-    } else if (linePos > 5000) {                // turn right
-        setMotorSpeed(LEFT_MOTOR, fastSpeedforlinefollowing);
-        setMotorSpeed(RIGHT_MOTOR, normalSpeedforlinefollowing);
+     if ((linePos > 0) && (linePos < 3000)) {    // turn left
+        setMotorSpeed(LEFT_MOTOR, 10);
+        setMotorSpeed(RIGHT_MOTOR, 15);
+    } else if (linePos > 4000) {                // turn right
+        setMotorSpeed(LEFT_MOTOR, 15);
+        setMotorSpeed(RIGHT_MOTOR, 10);
     } else {                                    // go straight
-        setMotorSpeed(LEFT_MOTOR, normalSpeedforlinefollowing);
-        setMotorSpeed(RIGHT_MOTOR, normalSpeedforlinefollowing);
+        setMotorSpeed(LEFT_MOTOR, 10);
+        setMotorSpeed(RIGHT_MOTOR, 10);
     }
-}
+ }

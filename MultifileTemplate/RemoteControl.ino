@@ -78,9 +78,11 @@ void RemoteControlPlaystation() {
     servomovement_close(); // press L3 so the servo will function
   } else if (ps2x.Button(PSB_R1)) {
     stop();
-    digital_Write(IR_LED, HIGH);
+    digitalWrite(IR_LED, HIGH);
     delay(1000);
-    digital_Write(IR_LED,LOW);
+    digitalWrite(IR_LED,LOW);
+  } else if (ps2x.Button(PSB_L1)) {
+    lightcandles();
   } else {
   stop();
   }

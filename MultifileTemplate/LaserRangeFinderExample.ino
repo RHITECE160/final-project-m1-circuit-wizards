@@ -7,16 +7,10 @@
 *
 */
 
-#include <SimpleRSLK.h>
 
 //#define UART_SERIAL Serial1    // for wireless serial monitor using HC05
 //Using the HC-06 lets you see the measurements when not tethered
 
-#define UART_SERIAL Serial  // for serial monitor using USB wire
-
-uint16_t distValue; 
-uint16_t distMM; 
-float distIN;
 
     // According to the RSLK Library:     
     // readSharpDist(0) is the left distance sensor which is tied to P9.1
@@ -25,14 +19,9 @@ float distIN;
 
 uint8_t SensorPos = 1; // sets the sensor pin used
 
-void setup() {
 
-  UART_SERIAL.begin(57600);
-  UART_SERIAL.println("starting serial monitor-USB");
-  setupRSLK();
-}
 
-void loop() {
+void LaserSensor() {
   //reads the distance as 14bit integer
   distValue = readSharpDist(SensorPos);
 
@@ -42,10 +31,5 @@ void loop() {
   //reads the distance in inches
   distIN = readSharpDistIN(SensorPos);
 
-  UART_SERIAL.print("Distance measured: ");
-  UART_SERIAL.print(distValue, DEC);  UART_SERIAL.print(" raw value | ");
-  UART_SERIAL.print(distMM, DEC);  UART_SERIAL.print(" mm | ");
-  UART_SERIAL.print(distIN, DEC);  UART_SERIAL.print(" inches");
-  UART_SERIAL.println();
-  delay(1000);
+  Serial.println(distMM);
 }

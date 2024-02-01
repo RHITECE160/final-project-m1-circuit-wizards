@@ -25,31 +25,17 @@
      blue wire          P6.7
 */
 
-// Load libraries used
-#include "SimpleRSLK.h"
-#include <Servo.h>
-#include "PS2X_lib.h"
 
 // Define high-level state machine
 enum RobotState {
-  INITIALIZE,
   MANUAL,
+  INITIALIZE,
   AUTONOMOUS
 };
 
-// Define lower-level state machine for AUTONOMOUS mode
-enum AutoState {
-  START,
-  AUTO_ACTION1,
-  AUTO_ACTION2,
-  AUTO_ACTION3,
-  AUTO_ACTION4,
-  IDLE
-};
 
 // Declare and initialize the current state variable
 RobotState RobotCurrentState = INITIALIZE;
-AutoState AutoCurrentState = START;
 
 /* updateStateMachine function
   This function changes the high-level state based on user input. 
@@ -61,28 +47,25 @@ AutoState AutoCurrentState = START;
 void updateStateMachine() {
   switch (RobotCurrentState) {
     case INITIALIZE:
-      if (digitalRead(START_BUTTON) == 0) {
-        Serial.print("start button has been pressed going to manual");
-        //go to Manual state when start button pushed
+      if (ps2x.ButtonPressed(PSB_TRIANGLE)) {
+        // go to Autonomous state when circle button pushed
         RobotCurrentState = MANUAL;
       }
       break;
 
     case MANUAL:
-      Serial.print("in manual state........");
-      if (ps2x.Button(PSB_CIRCLE)) {
+      if (ps2x.ButtonPressed(PSB_CIRCLE)) {
         // go to Autonomous state when circle button pushed
         RobotCurrentState = AUTONOMOUS;
       }
       break;
 
     case AUTONOMOUS:
-      Serial.print("in autonomous state........");
-      if (ps2x.Button(PSB_SQUARE)) {
+      if (ps2x.ButtonPressed(PSB_SQUARE)) {
         // go to manual state when square button pushed
         RobotCurrentState = MANUAL;
         // reset autonomous state to start state for the next time
-        AutoCurrentState = START; 
+        AutoCurrentState = AUTO_TOWALL; 
       }
 
       break;
@@ -99,22 +82,20 @@ void updateStateMachine() {
 void executeStateActions() {
   switch (RobotCurrentState) {
     case INITIALIZE:
-      // Perform actions for the initialize state
-      Serial.println("Initializing...");
-      // Add any additional actions for the initialize state
-      break;
+      Serial.println("Initialzing");
 
+      break;
     case AUTONOMOUS:
       // Perform actions for the autonomous state
-      Serial.println("Autonomous Mode");
       AutonomousControl();
+      Serial.println("It is in autonomous mode");
       // Add any additional actions for the autonomous state
       break;
 
     case MANUAL:
       // Perform actions for the manual state
-      Serial.println("Manual Mode");
       RemoteControl();
+      Serial.println("It is in Manual mode");
       // Add any additional actions for the manual state
       break;
   }

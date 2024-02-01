@@ -9,10 +9,33 @@
   1. void moveForward()
      - Activates the motor to move forward.
 
-  2. void stopMotor()
-     - Stops the motor.
+  2. void reverse()
+    - Activates the motor to move backwards
 
-  Created by: Ian Morton
+  3. void stopMotor()
+     - Stops the motor.
+  
+  4. void turnLeft()
+    - Activates left motor at slow speed and right motor at fast speed, turns left
+  
+  5. void turnRight()
+    - Activates right motor at slow speed and left motor at fast speed, turns right
+  
+  6. void spinLeft()
+    - Activates right motor at slow speed, left motor at slow speed backwards, spins left
+  
+  7. void spinRight()
+    - Activates left motor at slow speed, right motor at slow speed backwards, spins right
+  
+  8. servomovement_open()
+    - Opens claw grip to 20 degrees
+  
+  9. servomovement_close()
+    - Closes claw grip to 120 degrees
+
+
+
+  Created by: Ian Morton, Tom Cai
   Date: 1/17/24
   Version: 1.0
 */

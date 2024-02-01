@@ -11,11 +11,12 @@
   the higher-level state is switched to IDLE to await the next instruction.
 
   State Machine description:
-  The robot moves forward for a short time using a non-blocking delay, then 
-  the motors stop. Then the next few states are place-holders. The Robot returns
-  to IDLE state when autonomous functions are complete.
+  The robot moves forward until it detects a wall, then stops when there is a wall within 130mm. Spins right
+  for 1130ms then goes forward for 1700ms. Moves into linefollowing state, follows line until wall detected
+  within 70mm, then stops and opens the grip. Moves into Idle mode, finishes function allowing switch to manual mode.
 
-  Created by: Your Name
+
+  Created by: Ian Morton, Chengyang Ye
   Date: Current Date
   Version: 1.0
 */
@@ -93,4 +94,18 @@ void judgeautotype(){
   }
 }
 
+uint8_t SensorPos = 1; // sets the sensor pin used
+
+void LaserSensor() {
+  //reads the distance as 14bit integer
+  distValue = readSharpDist(SensorPos);
+
+  //reads the distance in millimeters
+  distMM = readSharpDistMM(SensorPos);
+
+  //reads the distance in inches
+  distIN = readSharpDistIN(SensorPos);
+
+  Serial.println(distMM);
+}
 

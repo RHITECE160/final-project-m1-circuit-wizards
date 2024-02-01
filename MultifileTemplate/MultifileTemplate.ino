@@ -8,9 +8,11 @@
 
   Calls functions in files:
   MotorFunctions.ino
+  RobotTemplate.ino
+  linefollowing.ino
 
   written for the MSP432401 board
-  Author: Chengyang Ye; Ian Morton; Tom Cai
+  Author: Chengyang Ye, Ian Morton, Tom Cai
   Last revised: 1/21/2024
 
 ***** Hardware Connections: *****

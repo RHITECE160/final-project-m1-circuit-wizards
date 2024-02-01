@@ -25,7 +25,7 @@
  * Learn more about the TI RSLK by going to http://www.ti.com/rslk
  *
  * created by Franklin Cooper Jr.
- * modified by chris miller 
+ * modified by chris miller, Ian Morton 
  *
  * This example code is in the public domain.
  */
@@ -61,14 +61,11 @@ void floorCalibration()
     Serial.println("Done calibrating.");
     /* Disable both motors */
     disableMotor(BOTH_MOTORS);
-
-    Serial.println("motor should be off.");
     
 }
 
  void linefollowing()
  {
-
      uint32_t linePos = getLinePosition();
      enableMotor(BOTH_MOTORS);
 

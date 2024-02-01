@@ -7,10 +7,19 @@
   example. 
 
   Button map:
-  PAD UP button moves both motors forward
-  CROSS button stops motors
+  LSTICK - moves forwards and backwards
+  RSTICK - turns right and left
+  DPAD LEFT - spins left
+  DPAD RIGHT - spins right
+  PSB CROSS - switches between IR Remote mode and controller mode
+  PSB CIRCLE - switches to autonomous mode
+  PSB SQUARE - switches to controller mode
+  R1 - turns on IRLED, for black candle
+  L1 - Sends code for either gold or catrina, depending on if code received
+  L3 - Opens grip
+  R3 - Closes grip
 
-  Created by: Your Name
+  Created by: Chengyang Ye, Ian Morton, Tom Cai
   Date: Current Date
   Version: 1.0
 */

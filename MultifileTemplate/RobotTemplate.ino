@@ -8,12 +8,12 @@
 
   Calls functions in files:
   AutonomousControl.ino
-  MotorFunctions.ino
   RemoteControl.ino
 
   written for the MSP432401 board
-  Author: Deborah Walter
-  Last revised: 11/28/2023
+  Adapted from code by Deborah Walters
+  Author: Ian Morton
+  Last revised: 1/29/2024
 
 ***** Hardware Connections: *****
      start button       P3.0

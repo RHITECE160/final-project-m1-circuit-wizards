@@ -18,13 +18,12 @@ void candleSetup() {
 }
 
 void goldCandles() {
-  if (ps2x.Button(PSB_START)){
+  if (ps2x.Button(PSB_L1)){
   IRmsg.protocol = NEC;
   IRmsg.address = 0xEE;
   IRmsg.command = 0xA0;
   IRmsg.isRepeat = false;
   sendIR.write(&IRmsg);
-  Serial.print('.');
-  delay(1000);
+  Serial.println("IR signal sent");
   }
 }

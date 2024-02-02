@@ -21,7 +21,7 @@ void RemoteControl() {
 
   // Operate the robot in remote control mode
   if (CurrentRemoteMode == 0) {
-    Serial.println("Running remote control with the Playstation Controller");
+    //Serial.println("Running remote control with the Playstation Controller");
     RemoteControlPlaystation();
     // run using the ps2 controller
   } else if (CurrentRemoteMode == 1) {
@@ -53,22 +53,22 @@ void RemoteControlPlaystation() {
   // the forward() and stop() functions should be independent of
   // the control methods
   if (ps2x.Analog(PSS_LY)>180) {
-    Serial.println("Reverse");
+    //Serial.println("Reverse");
     reverse(); // move L3 down so it will reverse
   } else if (ps2x.Analog(PSS_LY)<60) {
     Serial.println("Forward");
     forward(); // move L3 up so it will forward
   } else if (ps2x.Analog(PSS_RX)>180){
-    Serial.println("Turn Right");
+    //Serial.println("Turn Right");
     turnRight();// move R3 to right so it will turn right
   } else if (ps2x.Analog(PSS_RX)<60){
-    Serial.println("Turn Left");
+    //Serial.println("Turn Left");
     turnLeft(); // move L3 to left so it will turn left
   } else if (ps2x.Button(PSB_PAD_RIGHT)){
-    Serial.println("Spin Right");
+    //Serial.println("Spin Right");
     spinRight(); // press pad right so it will spin right
   } else if (ps2x.Button(PSB_PAD_LEFT)){
-    Serial.println("Spin Left");
+    //Serial.println("Spin Left");
     spinLeft(); // press pad left so it will spin left
   } else if (ps2x.Button(PSB_CROSS)){
     CurrentRemoteMode = IR_REMOTE; // press cross so it will change remote mode

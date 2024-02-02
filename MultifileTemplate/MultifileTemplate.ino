@@ -50,6 +50,7 @@ IRData IRmsg;
 Servo myservo;
 int pos=0;
 bool skull = false;
+volatile bool justWritten = false;
 enum RemoteMode {
   PLAYSTATION,
   IR_REMOTE,
@@ -119,8 +120,7 @@ void setup() {
     // enable receive feedback and specify LED pin number (defaults to LED_BUILTIN)
     enableRXLEDFeedback(BLUE_LED);
     floorCalibration();
-    candleSetup();
-    
+    candleSetup();   
 }
 
 void loop() {

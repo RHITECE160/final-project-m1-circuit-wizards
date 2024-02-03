@@ -14,16 +14,18 @@ void candleSetup() {
   delay(200);
   // enable transmit feedback and specify LED pin number (defaults to LED_BUILTIN)
   enableTXLEDFeedback(GREEN_LED);
-
+  
+  IRresults.protocol = NEC;
+  IRresults.address = 0xCE;   // address for the Catrina
+  IRresults.command = 0xA0;  // place holder for Catrina's command
+  IRresults.isRepeat = false;
 }
 
 void goldCandles() {
-  if (ps2x.Button(PSB_L1)){
   IRmsg.protocol = NEC;
   IRmsg.address = 0xEE;
   IRmsg.command = 0xA0;
   IRmsg.isRepeat = false;
   sendIR.write(&IRmsg);
   Serial.println("IR signal sent");
-  }
 }
